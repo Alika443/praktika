@@ -43,3 +43,23 @@ plt.figure(figsize=(18,4))
 color = plt.cm.copper(np.linspace(0, 1, 10))
 df.groupby(['Energy_type'])['CO2_emission'].count().plot(kind='bar', title = "кол-во выбросов со2 всвязи с типом энергии", width=.4,color=color);
 plt.xticks(rotation=45);
+
+# энергия, выработанная в каждой стране
+fig = px.box(df,
+        x="Country",
+        y="Energy_production",
+        title = "энергия, выработанная в каждой стране",
+        labels = {"x" : "Дни"})
+
+fig.update_traces(width=0.5)
+fig.show()
+
+# Выработка энергии в год
+fig = px.bar(df,
+              x="Year",
+              y="Energy_production",
+              color = "Energy_production",
+              title="Выработка энергии в год")
+fig.update_traces(width=0.6)
+fig.update_layout(barmode='group', xaxis_tickangle=-45)
+fig.show()
