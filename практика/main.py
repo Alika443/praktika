@@ -18,3 +18,16 @@ df.shape
 df.info()
 
 df.isnull().sum()
+
+# убираем ненужный столбец и пропущенные значения
+df = df.drop(['Unnamed: 0'], axis=1)
+df.dropna(subset=['CO2_emission'], inplace=True)
+df.dropna(subset=['Energy_consumption'], inplace=True)
+df.dropna(subset=['Energy_production'], inplace=True)
+df.dropna(subset=['GDP'], inplace=True)
+df.dropna(subset=['Population'], inplace=True)
+df.dropna(subset=['Energy_intensity_per_capita'], inplace=True)
+df.dropna(subset=['Energy_intensity_by_GDP'], inplace=True)
+
+# убираем nan
+df = df.fillna(0)
