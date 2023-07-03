@@ -31,3 +31,15 @@ df.dropna(subset=['Energy_intensity_by_GDP'], inplace=True)
 
 # убираем nan
 df = df.fillna(0)
+
+# кол-во выбросов со2 в каждом году
+plt.figure(figsize=(18,4))
+color = plt.cm.copper(np.linspace(0, 1, 10))
+df.groupby(['Year'])['CO2_emission'].count().plot(kind='bar', title = "кол-во выбросов со2 в каждом году", width=.4,color=color);
+plt.xticks(rotation=45);
+
+# кол-во выбросов со2 всвязи с типом энергии
+plt.figure(figsize=(18,4))
+color = plt.cm.copper(np.linspace(0, 1, 10))
+df.groupby(['Energy_type'])['CO2_emission'].count().plot(kind='bar', title = "кол-во выбросов со2 всвязи с типом энергии", width=.4,color=color);
+plt.xticks(rotation=45);
