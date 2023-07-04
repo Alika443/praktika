@@ -63,3 +63,24 @@ fig = px.bar(df,
 fig.update_traces(width=0.6)
 fig.update_layout(barmode='group', xaxis_tickangle=-45)
 fig.show()
+
+# потребление энергии каждого вида энергии в год
+f, axes = plt.subplots(1,1, figsize = (11,5.5))
+for a,(b,c) in enumerate(df.groupby('Energy_type')):
+    axes.scatter(c.Year, c.Energy_consumption, label = b)
+axes.legend()
+axes.grid(True)
+plt.title('потребление энергии каждого вида энергии в год')
+plt.xlabel('год')
+plt.show()
+
+# распределение типов энергии по кол-ву выделения со2
+temp_dist = df.groupby('Energy_type').count()['CO2_emission'].reset_index().sort_values(by='CO2_emission',ascending=False)
+temp_dist.style.background_gradient(cmap='spring')
+
+# распределение типов энергии по кол-ву выделения со2 в виде круговой диаграммы
+percent = temp_dist['CO2_emission']
+labels= temp_dist['Energy_type']
+fig = go.Figure()
+fig.add_trace(go.Pie(values=percent, labels=labels))
+fig.show()
