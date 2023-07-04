@@ -248,3 +248,18 @@ top_con = pd.DataFrame(list_con, columns=['Country', 'общее потребл�
 # Plotting the top 20 Consumers
 fig = px.bar(top_con.head(20), x='Country', y='общее потребление', title='топ 20 стран - крупнейших потребителей энергии')
 fig.show()
+
+#Топ-20 стран по выбросу CO2
+cd1 = df[df['Country']!='World']
+
+list = []
+
+for country in cd1['Country'].unique():
+    total = cd1[cd1['Country']==country]['CO2_emission'].sum(axis=0)
+    list.extend([[country, total]])
+
+# Временный набор данных по всем странам и их соответствующим общим выбросам CO2 за определенный период времени
+temp_cd = pd.DataFrame(list, columns=['Country', 'Total_CO2']).sort_values(by='Total_CO2',ascending=False)
+
+fig = px.bar(temp_cd.head(20), x='Country', y='Total_CO2', title='Топ-20 стран по выбросу CO2')
+fig.show()
