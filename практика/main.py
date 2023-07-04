@@ -196,3 +196,37 @@ temp_cd2 = cd2[['Country', 'Year', 'Energy_production']].groupby(['Country','Yea
 
 px.choropleth(data_frame=temp_cd2, locations="Country", locationmode='country names', animation_frame="Year",
               color='Energy_production', title="производство энергии в каждой стране с 1988 по 2019 год")
+
+# процентное изменение потребление разных видов энергии
+con0 = df[df['Country']=='World'][['Year','Country', 'Energy_type', 'Energy_consumption']]
+
+# уголь
+coal = con0
+coal['проц. измен.'] = con0[con0['Energy_type']=='coal']['Energy_consumption'].pct_change() * 100
+coal = coal[coal['проц. измен.'].notna()]
+
+# природный газ
+nat_gas = con0
+nat_gas['проц. измен.'] = con0[con0['Energy_type']=='natural_gas']['Energy_consumption'].pct_change() * 100
+nat_gas = nat_gas[nat_gas['проц. измен.'].notna()]
+
+# нефть
+pet_oth = con0
+pet_oth['проц. измен.'] = con0[con0['Energy_type']=='petroleum_n_other_liquids']['Energy_consumption'].pct_change() * 100
+pet_oth = pet_oth[pet_oth['проц. измен.'].notna()]
+
+# ядераная энергия
+nuclear = con0
+nuclear['проц. измен.'] = con0[con0['Energy_type']=='nuclear']['Energy_consumption'].pct_change() * 100
+nuclear = nuclear[nuclear['проц. измен.'].notna()]
+
+# возобновляемые источники энергии
+ren_oth = con0
+ren_oth['проц. измен.'] = con0[con0['Energy_type']=='renewables_n_other']['Energy_consumption'].pct_change() * 100
+ren_oth = ren_oth[ren_oth['проц. измен.'].notna()]
+
+final_df = pd.concat([coal, nat_gas, pet_oth, nuclear, ren_oth], axis=0)
+
+fig = px.area(final_df, x='Year', y='проц. измен.', facet_col='Energy_type', color='Energy_type', facet_col_wrap=2,
+             title='Годовой процентный показатель увеличения/уменьшения потребления каждого вида энергии')
+fig.show()
