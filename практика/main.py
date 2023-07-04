@@ -263,3 +263,26 @@ temp_cd = pd.DataFrame(list, columns=['Country', 'Total_CO2']).sort_values(by='T
 
 fig = px.bar(temp_cd.head(20), x='Country', y='Total_CO2', title='Топ-20 стран по выбросу CO2')
 fig.show()
+
+
+# страны по кол-ву потребления отдельных видов энергии
+fig, ax = plt.subplots(2, 3, figsize = (20, 10))
+
+types = ['coal', 'natural_gas', 'petroleum_n_other_liquids', 'nuclear', 'renewables_n_other']
+
+con3 = df[df['Country']!='World'].reset_index()
+
+for idx, (type, axes) in enumerate(zip(types, ax.flatten())):
+
+    dirty = con3[con3['Energy_type']==type].groupby(['Country'])['Energy_consumption'].sum().reset_index().sort_values(by='Energy_consumption', ascending=False)
+
+    sns.barplot(ax=axes, data=dirty.head(6), x='Country', y='Energy_consumption', palette="Blues_d")
+
+    axes.set_title(f'{type}')
+
+    for tick in axes.get_xticklabels():
+        tick.set_rotation(35)
+
+
+plt.tight_layout(pad=0.2, w_pad=3, h_pad=3)
+plt.show()
