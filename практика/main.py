@@ -145,4 +145,39 @@ prod0 = df[df['Country']=='World'][df['Energy_type']=='all_energy_types']
 temp_prod0 = prod0
 temp_prod0['процентное изменение'] = temp_prod0['Energy_production'].pct_change() * 100
 fig = px.area(temp_prod0, x='Year', y='процентное изменение', title='Ежегодное процентное изменение производства энергии')
+
+
+
+sample = df[df['Country']!='World'][df['Energy_type']!='all_energy_types']
+years = sample['Year'].unique()
+# среднее
+list_m = []
+for year in years:
+    amount1 = sample[sample['Year']==year]['CO2_emission'].mean()
+    list_m.extend([[year, amount1]])
+temp_mean = pd.DataFrame(list_m, columns=['Year', 'co2_mean'])
+temp_mean['co2_mean'] = round(temp_mean['co2_mean'], 2)
+
+# стандартное отклонение
+list_sd = []
+for year in years:
+    amount = sample[sample['Year']==year]['CO2_emission'].std()
+    list_sd.extend([[year, amount]])
+temp_sd = pd.DataFrame(list_sd, columns=['Year', 'co2_sd'])
+temp_sd['co2_sd'] = round(temp_sd['co2_sd'], 2)
+
+# графики
+fig = make_subplots(rows=2, cols=1)
+fig.add_trace(
+    go.Scatter(x=temp_mean['Year'], y=temp_mean['co2_mean'], mode="lines+markers"),
+    row=1, col=1
+)
+fig.add_trace(
+    go.Scatter(x=temp_sd['Year'], y=temp_sd['co2_sd'], mode="lines+markers"),
+    row=2, col=1
+)
+fig.update_yaxes(title_text="среднее", row=1, col=1)
+fig.update_yaxes(title_text="стандартное отклонение", row=2, col=1)
+fig.update_traces(textposition="bottom center")
+fig.update_layout(height=700, width=900, title_text="Среднегодовой и стандартное отклонение выбросов CO2 в каждой стране")
 fig.show()
