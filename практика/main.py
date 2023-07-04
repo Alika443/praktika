@@ -286,3 +286,18 @@ for idx, (type, axes) in enumerate(zip(types, ax.flatten())):
 
 plt.tight_layout(pad=0.2, w_pad=3, h_pad=3)
 plt.show()
+
+
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+import datetime as dt
+import plotly.graph_objects as go
+import plotly.express as px
+import plotly.figure_factory as ff
+
+df = pd.read_csv("energy.csv")
+df
+df.info()
