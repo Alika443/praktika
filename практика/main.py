@@ -301,3 +301,27 @@ import plotly.figure_factory as ff
 df = pd.read_csv("energy.csv")
 df
 df.info()
+
+
+# Разделение набора данных на два датафрейма
+df = pd.read_csv("energy.csv")
+df=df.fillna(0)
+df=df.dropna(0)
+df=df.dropna(how='any')
+
+#Удаление лишних столбцов
+df.drop (columns=df.columns [10], axis= 1 , inplace= True )
+df.drop (columns=df.columns [4], axis= 1 , inplace= True )
+df.drop (columns=df.columns [2], axis= 1 , inplace= True )
+df. drop (columns=df. columns [1], axis= 1 , inplace= True )
+df.drop (columns=df.columns [0], axis= 1 , inplace= True )
+df['Year'] = df['Year'].astype (float)
+
+df_1_to_11 = df[df['Year'].isin(range(2000, 2018))] # Выбор строк с годами от 2000 до 2018
+df_12 = df[df['Year'] == 2019] # Выбор строк с 2019 годом
+
+# Вывод первых 5 строк каждого датафрейма
+df_1_to_11.to_csv("1to11.csv", index=False)
+df_12.to_csv("to12.csv", index=False)
+print(df_1_to_11.head())
+print(df_12.head())
