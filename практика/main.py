@@ -372,3 +372,26 @@ df_12["Energy_production"] = next_day_preds.flatten()
 
 # Записываем обновленные данные в тот же файл excel
 df_12.to_csv("PredictData.csv", index=False)
+
+
+import numpy as np
+data = pd.read_csv("to12.csv")
+datapredict = pd.read_csv("PredictData.csv")
+
+mapedf = (np.mean(np.abs((data["Energy_production"] - datapredict["Energy_production"]) / data["Energy_production"])) * 100)# процент совпадений предсказании
+mape = np.mean(np.abs((y_test - preds) / np.maximum(y_test, 1))) * 100 #Модель Процентная средняя абсолютная ошибка
+mae = mean_absolute_error(y_test, preds) #средняя абсолютная ошибка
+mse = mean_squared_error(y_test, preds) #среднеквадратичная ошибка
+rmse = np.sqrt(mse) #Среднеквадратическое отклонение
+r2 = (r2_score(y_test, preds))
+
+# Print the model performance metrics
+print("Metrics of model performance:")
+print("__________________________________________________________________")
+print("Model Percentage Mean Absolute Error: ", mape)
+print("Mean Absolute Error: ", mae)
+print("Mean Squared Error: ", mse)
+print("Root Mean Squared Error: ", rmse)
+print("R^2: ", r2)
+print("Percentage Mean Absolute Error: ", mapedf)
+print("__________________________________________________________________")
