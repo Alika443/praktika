@@ -344,3 +344,12 @@ X_test = test_df.drop("Energy_production", axis=1).values.reshape(-1, 1, 4)
 y_train = train_df["Energy_production"].values.reshape(-1, 1)
 y_test = test_df["Energy_production"].values.reshape(-1, 1)
 df
+
+
+# Создание модели LSTM
+model = Sequential()
+model.add(LSTM(16, input_shape=(1, 4)))
+model.add(Dense(64, activation='relu'))
+model.add(Dense(1, activation='linear'))
+model.compile(loss='mean_squared_error', optimizer='adam')
+model.summary()
