@@ -99,3 +99,33 @@ fig = ff.create_annotated_heatmap(x = x,
                                   z = z,
                                   annotation_text = np.around(z, decimals=2))
 fig.show()
+
+# взаимосвязь всех данных датасета cо всеми видами энергии
+temp_pp = df[df['Country']=='World'][df['Energy_type']!='all']
+
+sns.pairplot(temp_pp, hue='Energy_type',palette="inferno")
+plt.show()
+
+# совокупность разных графиков
+with plt.rc_context(rc = {'figure.dpi': 250, 'axes.labelsize': 9,
+                          'xtick.labelsize': 10, 'ytick.labelsize': 10,
+                          'legend.title_fontsize': 7, 'axes.titlesize': 12,
+                          'axes.titlepad': 7}):
+
+    con = df[df['Country']=='World']
+
+    fig_4, ax_4 = plt.subplots(2, 2, figsize = (10, 8), gridspec_kw = {'width_ratios': [3, 3], 'height_ratios': [3, 4]})
+    ax_flat = ax_4.flatten()
+
+    sns.lineplot(ax=ax_flat[0], data=con[con['Energy_type']!='all'], x='Year', y='Energy_consumption').set_title('потребление всех видов энергии во всем мире')
+
+    sns.lineplot(ax=ax_flat[1], data=con[con['Energy_type']!='all'], x='CO2_emission', y='Energy_consumption',lw=3).set_title('Взаимосвязь потребления энергии и выброса CO2')
+
+    sns.lineplot(ax=ax_flat[2], data=con[con['Energy_type']!='all'], x='Year', y='Energy_consumption', hue='Energy_type',lw=3).set_title('Ежегодное потребление каждого вида энергии в мире')
+
+    sns.stripplot(ax=ax_flat[3], data=con[con['Energy_type']!='all'],x='Energy_type', y='Energy_consumption', jitter=.3, linewidth=1).set_title('потребление по разным видам энергии во всем мире')
+
+    ax_flat[3].tick_params(axis='x', rotation=55)
+
+    plt.tight_layout(pad = 1)
+    plt.show()
