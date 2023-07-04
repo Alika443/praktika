@@ -181,3 +181,18 @@ fig.update_yaxes(title_text="стандартное отклонение", row=2
 fig.update_traces(textposition="bottom center")
 fig.update_layout(height=700, width=900, title_text="Среднегодовой и стандартное отклонение выбросов CO2 в каждой стране")
 fig.show()
+
+# Выбросы CO2 в каждой стране с 1988 по 2019 год
+cd2 = df[df['Country']!='World'][df['Energy_type']=='all_energy_types']
+temp_cd2 = cd2[['Country', 'Year', 'CO2_emission']].groupby(['Country','Year']).sum().reset_index()
+
+px.choropleth(data_frame=temp_cd2, locations="Country", locationmode='country names', animation_frame="Year",
+              color='CO2_emission', title="Выбросы CO2 в каждой стране с 1988 по 2019 год")
+
+# производство энергии в каждой стране с 1988 по 2019 год
+cd2 = df[df['Country']!='World'][df['Energy_type']=='all_energy_types']
+
+temp_cd2 = cd2[['Country', 'Year', 'Energy_production']].groupby(['Country','Year']).sum().reset_index()
+
+px.choropleth(data_frame=temp_cd2, locations="Country", locationmode='country names', animation_frame="Year",
+              color='Energy_production', title="производство энергии в каждой стране с 1988 по 2019 год")
