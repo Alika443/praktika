@@ -353,3 +353,6 @@ model.add(Dense(64, activation='relu'))
 model.add(Dense(1, activation='linear'))
 model.compile(loss='mean_squared_error', optimizer='adam')
 model.summary()
+
+
+model.fit(X_train, y_train, epochs=20, verbose=0)
