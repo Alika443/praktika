@@ -325,3 +325,22 @@ df_1_to_11.to_csv("1to11.csv", index=False)
 df_12.to_csv("to12.csv", index=False)
 print(df_1_to_11.head())
 print(df_12.head())
+
+
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from sklearn.model_selection import train_test_split
+from keras.models import Sequential
+from keras.layers import LSTM, Dense
+import tensorflow as tf
+
+df_1_to_11 = df_1_to_11.drop('Year', axis = 1)
+
+# Разделение набора данных на обучающиеся и тестовые наборы
+train_df, test_df = train_test_split(df_1_to_11, test_size=0.2, random_state=50)
+
+# Преобразование обучающих и тестовых данных в 3D-массив для ввода в LSTM
+X_train = train_df.drop("Energy_production", axis=1).values.reshape(-1, 1, 4)
+X_test = test_df.drop("Energy_production", axis=1).values.reshape(-1, 1, 4)
+y_train = train_df["Energy_production"].values.reshape(-1, 1)
+y_test = test_df["Energy_production"].values.reshape(-1, 1)
+df
