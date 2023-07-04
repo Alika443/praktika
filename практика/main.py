@@ -230,3 +230,21 @@ final_df = pd.concat([coal, nat_gas, pet_oth, nuclear, ren_oth], axis=0)
 fig = px.area(final_df, x='Year', y='проц. измен.', facet_col='Energy_type', color='Energy_type', facet_col_wrap=2,
              title='Годовой процентный показатель увеличения/уменьшения потребления каждого вида энергии')
 fig.show()
+
+
+# топ 20 стран - крупнейших потребителей энергии
+con1 = df[df['Country']!='World'][df['Energy_type']=='all_energy_types']
+
+list_con = []
+
+# Сумма потребления всех видов энергии за все года
+for country in con1['Country'].unique():
+    total_con = con1[con1['Country']==country]['Energy_consumption'].sum(axis=0)
+    list_con.extend([[country, total_con]])
+
+# Временный набор данных по всем странам и их соответствующему общему потреблению за определенный период времени
+top_con = pd.DataFrame(list_con, columns=['Country', 'общее потребление']).sort_values(by='общее потребление',ascending=False)
+
+# Plotting the top 20 Consumers
+fig = px.bar(top_con.head(20), x='Country', y='общее потребление', title='топ 20 стран - крупнейших потребителей энергии')
+fig.show()
