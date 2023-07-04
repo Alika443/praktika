@@ -356,3 +356,8 @@ model.summary()
 
 
 model.fit(X_train, y_train, epochs=20, verbose=0)
+
+# предсказание на данных X_train
+preds = model.predict(X_test) 
+
+df_12=df_12.dropna(how='any')
