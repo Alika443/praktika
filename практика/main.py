@@ -84,3 +84,18 @@ labels= temp_dist['Energy_type']
 fig = go.Figure()
 fig.add_trace(go.Pie(values=percent, labels=labels))
 fig.show()
+
+# стандартный коэффициент корреляции
+df_corr = df.corr()
+df_corr
+
+# цветовая карта распределения величин
+x = list(df_corr.columns)
+y = list(df_corr.index)
+z = np.array(df_corr)
+
+fig = ff.create_annotated_heatmap(x = x,
+                                  y = y,
+                                  z = z,
+                                  annotation_text = np.around(z, decimals=2))
+fig.show()
