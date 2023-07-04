@@ -129,3 +129,20 @@ with plt.rc_context(rc = {'figure.dpi': 250, 'axes.labelsize': 9,
 
     plt.tight_layout(pad = 1)
     plt.show()
+
+#Годовое процентное изменение потребления энергии'
+con0 = df[df['Country']=='World'][df['Energy_type']=='all_energy_types']
+# изменение в процентах
+temp_con0 = con0
+temp_con0['процентное изменение'] = temp_con0['Energy_consumption'].pct_change() * 100
+
+fig = px.area(temp_con0, x='Year', y='процентное изменение', title='Годовое процентное изменение потребления энергии')
+fig.show()
+
+# Ежегодное процентное изменение производства энергии
+prod0 = df[df['Country']=='World'][df['Energy_type']=='all_energy_types']
+# изменение в процентах
+temp_prod0 = prod0
+temp_prod0['процентное изменение'] = temp_prod0['Energy_production'].pct_change() * 100
+fig = px.area(temp_prod0, x='Year', y='процентное изменение', title='Ежегодное процентное изменение производства энергии')
+fig.show()
