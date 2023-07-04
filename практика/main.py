@@ -358,6 +358,17 @@ model.summary()
 model.fit(X_train, y_train, epochs=20, verbose=0)
 
 # предсказание на данных X_train
-preds = model.predict(X_test) 
+preds = model.predict(X_test)
 
 df_12=df_12.dropna(how='any')
+
+
+next_day = df_12[["GDP", "Population", "Energy_intensity_per_capita","Energy_intensity_by_GDP"]].values.reshape(-1, 1, 4)
+# Делаем прогнозы, используя модель
+next_day_preds = model.predict(next_day)
+
+# Добавляем прогнозируемые значения в исходный фрейм данных
+df_12["Energy_production"] = next_day_preds.flatten()
+
+# Записываем обновленные данные в тот же файл excel
+df_12.to_csv("PredictData.csv", index=False)
